@@ -25,7 +25,7 @@ rule Mutect2:
     threads: thr
     shell:
         """
-          gatk4 Mutect2 \
+          gatk Mutect2 \
                 --native-pair-hmm-threads {threads} \
                 --dont-use-soft-clipped-bases true \
                 --max-reads-per-alignment-start 10000 \
@@ -50,7 +50,7 @@ rule Mutect2_panel:
     threads: thr
     shell:
         """
-          gatk4 Mutect2 \
+          gatk Mutect2 \
                 --native-pair-hmm-threads {threads} \
                 --dont-use-soft-clipped-bases true \
                 --max-reads-per-alignment-start 10000 \
@@ -73,7 +73,7 @@ rule Mutect2_nonorm:
     threads: thr
     shell:
         """
-          gatk4 Mutect2 \
+          gatk Mutect2 \
                 --native-pair-hmm-threads {threads} \
                 --dont-use-soft-clipped-bases true \
                 --max-reads-per-alignment-start 10000 \
@@ -96,7 +96,7 @@ rule FilterMutectCalls:
     threads: thr
     shell:
         """
-           gatk4 FilterMutectCalls \
+           gatk FilterMutectCalls \
                  -R {REF} \
                  --min-reads-per-strand 2 \
                  -unique 2 \
@@ -112,7 +112,7 @@ rule SnpEff:
     threads: thr
     shell:
         """
-          snpEff -noStats -v -cancer hg19 {input} | \
+          snpEff -noStats -v -cancer hg38 {input} | \
              SnpSift annotate {gnomad} | \
              SnpSift annotate {clinvar} | \
              bcftools view -Oz -o {output}
